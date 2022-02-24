@@ -8,9 +8,15 @@ public class PlayerControl : MonoBehaviour
     private bool _hasSandal;
     private GameObject _sandal;
     private Animator _animator;
-    [SerializeField] private float _speed, _mangoSpeed;
+    private int _health;
+    private float _time;
+
+    [SerializeField] private float _speed, _sandalSpeed;
     [SerializeField] private GameObject _sandalPrefab;
     [SerializeField] private Transform _shotPointCenter;
+    [SerializeField] private MangometerControl _meterControl;
+
+
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -18,7 +24,9 @@ public class PlayerControl : MonoBehaviour
         _rb2d = GetComponent<Rigidbody2D>();
         _hasSandal = true;
         _speed = 10;
-        _mangoSpeed = 500;
+        _sandalSpeed = 500;
+        _health = 100;
+        _time = 0;
     }
 
     void Update()
@@ -28,7 +36,6 @@ public class PlayerControl : MonoBehaviour
         Vector2 direction = (mousePosition - (Vector2)transform.position).normalized;
         _shotPointCenter.right = direction;
 
-        //if(!_hasSandal) _sandal.transform.Rotate(0, 0, -300 * Time.deltaTime);
 
         if(Input.GetMouseButtonDown(0) && _hasSandal)
         {
@@ -39,7 +46,13 @@ public class PlayerControl : MonoBehaviour
         {
             CallSandal();
         }
-
+        _time += Time.deltaTime;
+        if (_time >= 1)
+        {
+            _health -= 5;
+            _time = 0;
+            _meterControl.GetComponent<MangometerControl>().SetHealthValue(_health);
+        }
     }
     
     private void FixedUpdate()
@@ -73,7 +86,7 @@ public class PlayerControl : MonoBehaviour
     {
         Vector2 position = (Vector2)_shotPointCenter.position + (direction * 2);
         _sandal = Instantiate(_sandalPrefab, position, Quaternion.identity);
-        _sandal.GetComponent<Rigidbody2D>().AddForce(_mangoSpeed * direction);
+        _sandal.GetComponent<Rigidbody2D>().AddForce(_sandalSpeed * direction);
         _sandal.GetComponent<Rigidbody2D>().gravityScale = 1f;
         _sandal.GetComponent<BoxCollider2D>().enabled = true;
         
@@ -83,7 +96,7 @@ public class PlayerControl : MonoBehaviour
     {
         Vector2 sandalPosition = _sandal.transform.position;
         Vector2 direction = ((Vector2)transform.position - sandalPosition).normalized;
-        _sandal.GetComponent<Rigidbody2D>().AddForce(20 * direction);
+        _sandal.GetComponent<Rigidbody2D>().AddForce(30 * direction);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {

@@ -11,10 +11,6 @@ public class MangoControl : MonoBehaviour
         _hingeJoint = GetComponent<HingeJoint2D>();
     }
 
-    void Update()
-    {
-        
-    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
