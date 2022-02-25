@@ -47,9 +47,9 @@ public class PlayerControl : MonoBehaviour
             CallSandal();
         }
         _time += Time.deltaTime;
-        if (_time >= 1)
+        if (_time >= 0.5)
         {
-            _health -= 5;
+            _health -= 1;
             _time = 0;
             _meterControl.GetComponent<MangometerControl>().SetHealthValue(_health);
         }
@@ -105,6 +105,10 @@ public class PlayerControl : MonoBehaviour
             Destroy(_sandal);
             _hasSandal = true;
             _animator.SetBool("HasSandal", true);
+        }else if (other.gameObject.CompareTag("Mango"))
+        {
+            _health += 5;
+            if(_health > 100) _health = 100;   
         }
     }
 
