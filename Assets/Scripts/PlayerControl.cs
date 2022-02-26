@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject _sandalPrefab;
     [SerializeField] private Transform _shotPointCenter;
     [SerializeField] private MangometerControl _meterControl;
-
+    [SerializeField] private GameObject _gameOverMenu;
 
     void Start()
     {
@@ -49,9 +49,14 @@ public class PlayerControl : MonoBehaviour
         _time += Time.deltaTime;
         if (_time >= 0.5)
         {
-            _health -= 1;
+            _health -= 10;
             _time = 0;
             _meterControl.GetComponent<MangometerControl>().SetHealthValue(_health);
+            if(_health <= 0) 
+            {
+                //TODO: Add an '_canMove' variable to control when the player can move
+                _gameOverMenu.SetActive(true);
+            }
         }
     }
     
