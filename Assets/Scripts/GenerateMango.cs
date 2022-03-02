@@ -11,28 +11,23 @@ public class GenerateMango : MonoBehaviour
 
     void Start()
     {
-        //StartCoroutine(SpawnMango());
         _mangoCount = 0;
         _spawnTime = 0;
-    }
-
-    void Update()
-    {
-        _spawnTime += Time.deltaTime;
-        if(_spawnTime >= 3 && _mangoCount <= 10)
+        for (int i = 0; i < 10; i++)
         {
             SpawnMango();
         }
     }
 
-    /*private IEnumerator SpawnMango()
+    void Update()
     {
-        while(_mangoCount < 10)
+        _spawnTime += Time.deltaTime;
+        if(_spawnTime >= 1 && _mangoCount <= 10)
         {
-
-            yield return new WaitForSeconds(2);
+            SpawnMango();
         }
-    }*/
+    }
+
 
     private void SpawnMango()
     {

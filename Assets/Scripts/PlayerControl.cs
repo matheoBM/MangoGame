@@ -47,9 +47,9 @@ public class PlayerControl : MonoBehaviour
             CallSandal();
         }
         _time += Time.deltaTime;
-        if (_time >= 0.5)
+        if (_time >= 0.3)
         {
-            _health -= 10;
+            _health -= 1;
             _time = 0;
             _meterControl.GetComponent<MangometerControl>().SetHealthValue(_health);
             if(_health <= 0) 
